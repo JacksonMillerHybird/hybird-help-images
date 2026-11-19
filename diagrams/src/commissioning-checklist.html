@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<title>Commissioning checklist</title>
+<style>
+  @page { size: A4; margin: 0; }
+  :root { --ink:#2a2922; --olive:#4f5634; --orange:#c2602b; --muted:#6d6a5f; --line:#e3ded2; --paper:#fcfbf7; --tint:#eef0e6; --otint:#f8ebe2; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: #fff; }
+  body { font-family: Inter, sans-serif; color: var(--ink); -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .page { width: 210mm; height: 297mm; padding: 11mm 12mm 9mm; display: flex; flex-direction: column; gap: 3.2mm; overflow: hidden; }
+  h1 { font-size: 23px; margin: 0; color: var(--olive); letter-spacing: -0.2px; }
+  .fields { display: grid; grid-template-columns: 1.4fr 1fr 0.8fr 1.2fr; gap: 3mm; font-size: 12px; color: var(--muted); }
+  .fields div { border-bottom: 1.2px solid var(--line); padding: 4mm 0 1.2mm; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3.2mm; flex: 1; }
+  .col { display: flex; flex-direction: column; gap: 3.2mm; }
+  section { border: 1.2px solid var(--line); border-radius: 9px; background: var(--paper); padding: 3mm 3.4mm 2.6mm; }
+  section.warn { background: var(--otint); border-color: var(--orange); }
+  h2 { font-size: 15.5px; margin: 0 0 0.6mm; display: flex; align-items: center; gap: 2.2mm; color: var(--olive); }
+  h2 .n { flex: none; width: 21px; height: 21px; border-radius: 50%; background: var(--olive); color: #fff; font-size: 12px; display: inline-flex; align-items: center; justify-content: center; }
+  .warn h2 { color: var(--orange); } .warn h2 .n { background: var(--orange); }
+  .why { font-size: 12.2px; color: var(--muted); margin: 0 0 1.6mm; }
+  ul { list-style: none; margin: 0; padding: 0; }
+  li { font-size: 13.2px; line-height: 1.38; padding: 1.5mm 0 1.5mm 7mm; position: relative; border-top: 1px solid var(--line); }
+  li:first-child { border-top: 0; }
+  li::before { content: ""; position: absolute; left: 0; top: 2mm; width: 3.6mm; height: 3.6mm; border: 1.4px solid var(--olive); border-radius: 3px; background: #fff; }
+  b { font-weight: 700; }
+  .note { font-size: 11.4px; color: var(--orange); font-weight: 600; margin-top: 1.2mm; }
+  ul.plain li { padding-left: 4mm; } ul.plain li::before { width: 1.6mm; height: 1.6mm; top: 3.2mm; border-radius: 50%; background: var(--olive); border: 0; }
+  footer { font-size: 11px; color: var(--muted); display: flex; justify-content: space-between; border-top: 1.2px solid var(--line); padding-top: 2mm; }
+</style>
+</head>
+<body>
+<div class="page">
+  <h1>Hybird commissioning checklist</h1>
+  <div class="fields"><div>Site</div><div>Panel</div><div>Date</div><div>Installer</div></div>
+  <div class="grid">
+    <div class="col">
+      <section>
+        <h2><span class="n">1</span>Before power</h2>
+        <p class="why">Power off, or work under the live-working rules of DS/EN&nbsp;50110.</p>
+        <ul>
+          <li>PSU, UPS (if fitted) and controller mounted, left to right: PSU → UPS → controller</li>
+          <li>Power wiring correctly terminated and secure</li>
+          <li>RS485 daisy chain complete: no star wiring, no T&#8209;taps</li>
+          <li>A/B polarity the same at the controller and every device</li>
+          <li>Repeater fitted if the bus has more than 70 breakers</li>
+          <li>Ethernet ready where possible; Wi-Fi as fallback</li>
+        </ul>
+      </section>
+      <section class="warn">
+        <h2><span class="n">2</span>Power on</h2>
+        <p class="why">Breakers must be powered to be addressed. Take the necessary precautions.</p>
+        <ul>
+          <li>Controller green power LED on</li>
+          <li>Controller online in Hybird OS</li>
+          <li><b>Detach every RCD and meter</b> from the RS485 bus, then tap <b>I Detached Every RCD and Meter</b></li>
+        </ul>
+      </section>
+      <section>
+        <h2><span class="n">3</span>Each breaker, in the Assembly guide</h2>
+        <p class="why">Breakers arrive in Setup mode (green dip switch down).</p>
+        <ul>
+          <li><b>Scan Device QR</b> (or <b>Enter URL Manually…</b>)</li>
+          <li><b>Flip Green Switch to Setup</b> · purple in the LED pattern</li>
+          <li><b>Write Address to Register</b></li>
+          <li><b>Flip Green Switch to Work</b> · LED blinks one colour</li>
+          <li><b>Run Device Test</b></li>
+        </ul>
+        <p class="note">Only one breaker in Setup mode at a time.</p>
+      </section>
+    </div>
+    <div class="col">
+      <section>
+        <h2><span class="n">4</span>RCDs and meters</h2>
+        <ul>
+          <li>Address each RCD on its own: it is the only device connected to the controller RS485 bus</li>
+          <li>Each RCD has 230 V on A1/A2 as well as its bottom supply</li>
+          <li>Meters: pick the meter model, <b>Isolate This Meter</b>, <b>Run Device Test</b></li>
+          <li>Every RCD and meter reconnected to the bus when the guide asks</li>
+        </ul>
+      </section>
+      <section>
+        <h2><span class="n">5</span>Check the whole bus</h2>
+        <ul>
+          <li><b>Test the Bus</b>, then <b>Confirm Addressing</b></li>
+          <li>Every breaker LED blinks one colour: red (on) or blue (off), no purple</li>
+          <li>Every device reports in Hybird OS</li>
+          <li>Each breaker labelled with its circuit name</li>
+          <li>Switching checked on one non-critical circuit</li>
+        </ul>
+      </section>
+      <section class="warn">
+        <h2><span class="n">6</span>Hand over</h2>
+        <ul>
+          <li>Build complete and every device reporting</li>
+          <li><b>Move to Operating</b> only now: it permanently locks the panel to its current account and site</li>
+        </ul>
+      </section>
+      <section>
+        <h2><span class="n">i</span>If something is wrong</h2>
+        <ul class="plain">
+          <li>One breaker silent: check its A/B wires and plug</li>
+          <li>None reporting: check A/B at the controller</li>
+          <li>A group silent: look for a break after the last reporting device</li>
+          <li>Stuck? Ask in the Messenger at help.hybird.energy</li>
+        </ul>
+      </section>
+    </div>
+  </div>
+  <footer><span>Full guide: help.hybird.energy/en/articles/14654866</span><span>RCD guides: articles 18458467 and 18381070</span></footer>
+</div>
+</body>
+</html>
